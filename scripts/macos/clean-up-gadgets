@@ -1,0 +1,12 @@
+#!/bin/bash
+oifs="$IFS"
+IFS=$'\n'
+for i in $(networksetup -listallnetworkservices); do
+    # Remove asterisk marker
+    i="${i//\*}"
+    if [[ $i == 'RNDIS'* ]]; then
+        echo "$i"
+        networksetup -deletepppoeservice "$i"
+    fi
+done
+IFS="$oifs"
